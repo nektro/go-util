@@ -158,3 +158,8 @@ func DoesFileExist(file string) bool {
 	_, err := os.Stat(file)
 	return !os.IsNotExist(err)
 }
+
+func ReadFile(path string) []byte {
+	reader, _ := os.Open(path)
+	bytes, _ := ioutil.ReadAll(reader)
+	return bytes
