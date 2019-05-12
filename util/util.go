@@ -3,6 +3,7 @@ package util
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"runtime/debug"
@@ -190,4 +191,11 @@ func FullHost(r *http.Request) string {
 		urL += "s"
 	}
 	return urL + "://" + r.Host
+}
+
+func DoHttpRequest(req *http.Request) []byte {
+	resp, _ := http.DefaultClient.Do(req)
+	body, _ := ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	return body
 }
