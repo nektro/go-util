@@ -153,3 +153,8 @@ func Assert(condition bool, errorMessage string) error {
 	}
 	return errors.New(errorMessage)
 }
+
+func DoesFileExist(file string) bool {
+	_, err := os.Stat(file)
+	return !os.IsNotExist(err)
+}
