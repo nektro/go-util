@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -144,4 +145,11 @@ func DieOnError(err error, args ...string) {
 		}
 		os.Exit(1)
 	}
+}
+
+func Assert(condition bool, errorMessage string) error {
+	if condition {
+		return nil
+	}
+	return errors.New(errorMessage)
 }
