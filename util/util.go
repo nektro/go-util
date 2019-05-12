@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"runtime/debug"
 	"strings"
 	"time"
 
@@ -163,3 +164,12 @@ func ReadFile(path string) []byte {
 	reader, _ := os.Open(path)
 	bytes, _ := ioutil.ReadAll(reader)
 	return bytes
+}
+
+func CheckErr(err error, args ...string) {
+	if err != nil {
+		LogError(F("%q: %s", err, args))
+		debug.PrintStack()
+		os.Exit(2)
+	}
+}
