@@ -52,9 +52,9 @@ func FasthttpHandle(path string, ctx *fasthttp.RequestCtx) bool {
 }
 
 func PrintTable(data [][]string, dividers bool) {
-	rows := CountRows(data)
-	cols := CountColumns(data)
-	widths := CountMaxColumWidths(data, rows, cols)
+	rows := countRows(data)
+	cols := countColumns(data)
+	widths := countMaxColumWidths(data, rows, cols)
 
 	fmt.Print("┌")
 	for i := 0; i < len(widths); i++ {
@@ -108,11 +108,11 @@ func PrintTable(data [][]string, dividers bool) {
 	fmt.Println()
 }
 
-func CountRows(data [][]string) int {
+func countRows(data [][]string) int {
 	return len(data)
 }
 
-func CountColumns(data [][]string) int {
+func countColumns(data [][]string) int {
 	res := 0
 	for _, item := range data {
 		l := len(item)
@@ -123,7 +123,7 @@ func CountColumns(data [][]string) int {
 	return res
 }
 
-func CountMaxColumWidths(data [][]string, rowCount int, colCount int) []int {
+func countMaxColumWidths(data [][]string, rowCount int, colCount int) []int {
 	res := make([]int, colCount)
 	for i := 0; i < rowCount; i++ {
 		for j := 0; j < colCount; j++ {
