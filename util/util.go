@@ -3,6 +3,7 @@ package util
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"os"
 	"runtime/debug"
 	"strings"
@@ -181,4 +182,12 @@ func Contains(array []string, needle string) bool {
 		}
 	}
 	return false
+}
+
+func FullHost(r *http.Request) string {
+	urL := "http"
+	if r.TLS != nil {
+		urL += "s"
+	}
+	return urL + "://" + r.Host
 }
