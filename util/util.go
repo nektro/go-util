@@ -54,7 +54,7 @@ func PrintTable(data [][]string, dividers bool) {
 
 	fmt.Print("┌")
 	for i := 0; i < len(widths); i++ {
-		fmt.Print(strings.Repeat("─", widths[i]+2))
+		fmt.Print(strings.Repeat("─", widths[i]))
 		if i < len(widths)-1 {
 			fmt.Print("┬")
 		} else {
@@ -66,14 +66,13 @@ func PrintTable(data [][]string, dividers bool) {
 	for i := 0; i < rows; i++ {
 		fmt.Print("│")
 		for j := 0; j < cols; j++ {
-			fmt.Print(" ")
 			if j < len(data[i]) {
 				fmt.Print(data[i][j])
 				fmt.Print(strings.Repeat(" ", widths[j]-len(data[i][j])))
 			} else {
 				fmt.Print(strings.Repeat(" ", widths[j]))
 			}
-			fmt.Print(" │")
+			fmt.Print("│")
 		}
 		fmt.Println()
 
@@ -81,7 +80,7 @@ func PrintTable(data [][]string, dividers bool) {
 			if i < rows-1 {
 				fmt.Print("├")
 				for j := 0; j < cols; j++ {
-					fmt.Print(strings.Repeat("─", widths[j]+2))
+					fmt.Print(strings.Repeat("─", widths[j]))
 					if j < cols-1 {
 						fmt.Print("┼")
 					} else {
@@ -95,7 +94,7 @@ func PrintTable(data [][]string, dividers bool) {
 
 	fmt.Print("└")
 	for i := 0; i < cols; i++ {
-		fmt.Print(strings.Repeat("─", widths[i]+2))
+		fmt.Print(strings.Repeat("─", widths[i]))
 		if i < cols-1 {
 			fmt.Print("┴")
 		} else {
