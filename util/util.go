@@ -173,3 +173,12 @@ func CheckErr(err error, args ...string) {
 		os.Exit(2)
 	}
 }
+
+func Contains(array []string, needle string) bool {
+	for _, item := range array {
+		if needle == item {
+			return true
+		}
+	}
+	return false
+}
