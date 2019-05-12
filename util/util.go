@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -133,4 +134,14 @@ func CountMaxColumWidths(data [][]string, rowCount int, colCount int) []int {
 		}
 	}
 	return res
+}
+
+func DieOnError(err error, args ...string) {
+	if err != nil {
+		LogError(err)
+		for _, item := range args {
+			LogError(item)
+		}
+		os.Exit(1)
+	}
 }
