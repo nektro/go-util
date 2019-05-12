@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/valyala/fasthttp"
 )
 
@@ -15,6 +16,10 @@ var (
 func Log(message ...interface{}) {
 	fmt.Print("[" + GetIsoDateTime() + "] ")
 	fmt.Println(message...)
+}
+
+func LogError(message interface{}) {
+	color.Red("["+GetIsoDateTime()+"] [error] %s", message)
 }
 
 func GetIsoDateTime() string {
