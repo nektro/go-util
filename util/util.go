@@ -7,6 +7,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/valyala/fasthttp"
+
+	. "github.com/nektro/go-util/alias"
 )
 
 var (
@@ -20,6 +22,10 @@ func Log(message ...interface{}) {
 
 func LogError(message interface{}) {
 	color.Red("["+GetIsoDateTime()+"] [error] %s", message)
+}
+
+func Logf(format string, args ...interface{}) {
+	fmt.Println("[" + GetIsoDateTime() + "] " + F(format, args...))
 }
 
 func GetIsoDateTime() string {
