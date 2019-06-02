@@ -7,6 +7,8 @@ import (
 	"github.com/nektro/go-util/util"
 
 	. "github.com/nektro/go-util/alias"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type DB struct {
