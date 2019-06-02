@@ -176,8 +176,8 @@ func CheckErr(err error, args ...string) {
 	}
 }
 
-func Contains(array []string, needle string) bool {
-	for _, item := range array {
+func Contains(haystack []string, needle string) bool {
+	for _, item := range haystack {
 		if needle == item {
 			return true
 		}
