@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -166,6 +167,17 @@ func ReadFile(path string) []byte {
 	reader, _ := os.Open(path)
 	bytes, _ := ioutil.ReadAll(reader)
 	return bytes
+}
+
+func ReadFileLines(path string, send func(string)) {
+	reader, _ := os.Open(path)
+	scanner := bufio.NewScanner(reader)
+	for scanner.Scan() {
+		send(scanner.Text())
+	}
+	if err := scanner.Err(); err != nil {
+		LogError(err)
+	}
 }
 
 func CheckErr(err error, args ...string) {
