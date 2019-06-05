@@ -163,6 +163,17 @@ func DoesFileExist(file string) bool {
 	return !os.IsNotExist(err)
 }
 
+func DoesDirectoryExist(path string) bool {
+	s, err := os.Stat(path)
+	if err != nil {
+		return false
+	}
+	if !s.IsDir() {
+		return false
+	}
+	return true
+}
+
 func ReadFile(path string) []byte {
 	reader, _ := os.Open(path)
 	bytes, _ := ioutil.ReadAll(reader)
