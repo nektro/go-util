@@ -3,6 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
+	"reflect"
 
 	"github.com/nektro/go-util/util"
 
@@ -55,6 +56,19 @@ func (db *DB) CreateTable(name string, pk []string, columns [][]string) {
 			util.Logf("Added column '%s.%s'", name, col[0])
 		}
 	}
+}
+
+func (db *DB) CreateTableStruct(name string, v interface{}) {
+	t := reflect.TypeOf(v)
+	cols := [][]string{}
+	for i := 0; i < t.NumField(); i++ {
+		f := t.Field(i)
+		g := f.Tag.Get("sqlite")
+		if len(g) > 0 {
+			cols = append(cols, []string{f.Tag.Get("json"), g})
+		}
+	}
+	db.CreateTable(name, []string{"id", "int primary key"}, cols)
 }
 
 func (db *DB) DoesTableExist(table string) bool {
