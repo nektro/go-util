@@ -25,8 +25,9 @@ type RowPragmaTableInfo struct {
 }
 
 func Connect(path string) *DB {
-	db, err := sql.Open("sqlite3", "file:"+path+"/access.db?mode=rwc&cache=shared")
+	db, err := sql.Open("sqlite3", "file:"+path+"/access.db?mode=rwc&cache=shared&_busy_timeout=5000")
 	util.CheckErr(err)
+	db.SetMaxOpenConns(1)
 	return &DB{db}
 }
 
