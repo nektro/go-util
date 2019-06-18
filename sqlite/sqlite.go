@@ -31,6 +31,7 @@ func Connect(path string) *DB {
 	op.Add("mode", "rwc")
 	op.Add("cache", "shared")
 	op.Add("_busy_timeout", "5000")
+	op.Add("_journal_mode", "OFF")
 	db, err := sql.Open("sqlite3", "file:"+path+"/access.db?"+op.Encode())
 	util.CheckErr(err)
 	db.SetMaxOpenConns(1)
