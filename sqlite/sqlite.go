@@ -3,6 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
+	"net/url"
 	"reflect"
 
 	"github.com/nektro/go-util/util"
@@ -26,7 +27,11 @@ type RowPragmaTableInfo struct {
 }
 
 func Connect(path string) *DB {
-	db, err := sql.Open("sqlite3", "file:"+path+"/access.db?mode=rwc&cache=shared&_busy_timeout=5000")
+	op := url.Values{}
+	op.Add("mode", "rwc")
+	op.Add("cache", "shared")
+	op.Add("_busy_timeout", "5000")
+	db, err := sql.Open("sqlite3", "file:"+path+"/access.db?"+op.Encode())
 	util.CheckErr(err)
 	db.SetMaxOpenConns(1)
 	return &DB{db}
