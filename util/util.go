@@ -26,7 +26,7 @@ func Log(message ...interface{}) {
 	fmt.Println(message...)
 }
 
-func LogError(message interface{}) {
+func LogError(message ...interface{}) {
 	color.Red("["+GetIsoDateTime()+"] [error] %s", message)
 }
 
