@@ -13,6 +13,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+func QueryHasRows(query *sql.Rows) bool {
+	b := query.Next()
+	query.Close()
+	return b
+}
+
 type DB struct {
 	db *sql.DB
 }
