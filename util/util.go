@@ -27,7 +27,7 @@ func Log(message ...interface{}) {
 }
 
 func LogError(message ...interface{}) {
-	color.Red("["+GetIsoDateTime()+"] [error] %s", message)
+	color.Red("["+GetIsoDateTime()+"] [error] %s", message...)
 }
 
 func Logf(format string, args ...interface{}) {
