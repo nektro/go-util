@@ -209,7 +209,7 @@ func Contains(haystack []string, needle string) bool {
 
 func FullHost(r *http.Request) string {
 	urL := "http"
-	if r.TLS != nil {
+	if len(r.Header.Get("X-TLS-Enabled")) > 0 {
 		urL += "s"
 	}
 	return urL + "://" + r.Host
