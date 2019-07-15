@@ -35,8 +35,7 @@ func Logf(format string, args ...interface{}) {
 }
 
 func GetIsoDateTime() string {
-	vil := time.Now().UTC().String()
-	return vil[0:19]
+	return time.Now().UTC().String()[0:19]
 }
 
 func FasthttpAddHandler(path string, handle func(ctx *fasthttp.RequestCtx)) {
