@@ -12,13 +12,8 @@ import (
 	"time"
 
 	"github.com/fatih/color"
-	"github.com/valyala/fasthttp"
 
 	. "github.com/nektro/go-util/alias"
-)
-
-var (
-	fasthttpHandlers = map[string]func(ctx *fasthttp.RequestCtx){}
 )
 
 func Log(message ...interface{}) {
@@ -36,20 +31,6 @@ func Logf(format string, args ...interface{}) {
 
 func GetIsoDateTime() string {
 	return time.Now().UTC().String()[0:19]
-}
-
-func FasthttpAddHandler(path string, handle func(ctx *fasthttp.RequestCtx)) {
-	fasthttpHandlers[path] = handle
-}
-
-func FasthttpHandle(path string, ctx *fasthttp.RequestCtx) bool {
-	for k, v := range fasthttpHandlers {
-		if k == path {
-			v(ctx)
-			return true
-		}
-	}
-	return false
 }
 
 func PrintTable(data [][]string, dividers bool) {
