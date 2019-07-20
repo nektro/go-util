@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"os"
 	"runtime/debug"
@@ -201,4 +202,13 @@ func DoHttpRequest(req *http.Request) []byte {
 	body, _ := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
 	return body
+}
+
+func IsPortAvailable(port int) bool {
+	ln, err := net.Listen("tcp", F(":%d", port))
+	ln.Close()
+	if err != nil {
+		return false
+	}
+	return true
 }
