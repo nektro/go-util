@@ -206,9 +206,9 @@ func DoHttpRequest(req *http.Request) []byte {
 
 func IsPortAvailable(port int) bool {
 	ln, err := net.Listen("tcp", F(":%d", port))
-	ln.Close()
 	if err != nil {
 		return false
 	}
+	ln.Close()
 	return true
 }
