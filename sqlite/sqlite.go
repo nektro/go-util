@@ -119,7 +119,7 @@ func (db *DB) QueryColumnList(table string) []string {
 }
 
 func (db *DB) QueryNextID(table string) int {
-	result := -1
+	result := 0
 	rows := db.Query(false, F("select id from %s order by id desc limit 1", table))
 	for rows.Next() {
 		rows.Scan(&result)
