@@ -190,11 +190,11 @@ func Contains(haystack []string, needle string) bool {
 }
 
 func FullHost(r *http.Request) string {
-	urL := "http"
+	urlS := "http"
 	if len(r.Header.Get("X-TLS-Enabled")) > 0 {
-		urL += "s"
+		urlS += "s"
 	}
-	return urL + "://" + r.Host
+	return urlS + "://" + r.Host
 }
 
 func DoHttpRequest(req *http.Request) []byte {
