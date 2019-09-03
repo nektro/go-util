@@ -7,7 +7,7 @@ import (
 )
 
 type MultiplexFileSystem struct {
-	FSList []http.FileSystem
+	fsList []http.FileSystem
 }
 
 func init() {
@@ -15,8 +15,12 @@ func init() {
 	mime.AddExtensionType(".js", "application/javascript")
 }
 
+func (ffs *MultiplexFileSystem) Add(fs http.FileSystem) {
+	ffs.fsList = append(ffs.fsList, fs)
+}
+
 func (ffs MultiplexFileSystem) Open(name string) (http.File, error) {
-	for _, item := range ffs.FSList {
+	for _, item := range ffs.fsList {
 		file, err := item.Open(name)
 		if err != nil {
 			continue
