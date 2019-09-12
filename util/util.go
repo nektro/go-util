@@ -176,7 +176,6 @@ func CheckErr(err error, args ...string) {
 	if err != nil {
 		LogError(F("%q: %s", err, args))
 		debug.PrintStack()
-		os.Exit(2)
 	}
 }
 
