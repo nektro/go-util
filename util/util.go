@@ -211,3 +211,10 @@ func IsPortAvailable(port int) bool {
 	ln.Close()
 	return true
 }
+
+func Btoi(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}
