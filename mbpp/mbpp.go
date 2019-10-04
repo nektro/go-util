@@ -80,14 +80,20 @@ func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup) {
 			return
 		}
 
-		res, _ := http.Get(urlS)
+		res, err := http.Get(urlS)
+		if err != nil {
+			return
+		}
 		if res.StatusCode != 200 {
 			return
 		}
 		bar.AddToTotal(int(res.ContentLength))
 
-		dst, _ := os.Create(pathS)
 		src := &passThru{bar, res.Body}
+		dst, err := os.Create(pathS)
+		if err != nil {
+			return
+		}
 
 		io.Copy(dst, src)
 		res.Body.Close()
