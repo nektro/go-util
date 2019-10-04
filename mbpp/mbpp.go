@@ -69,12 +69,11 @@ func GetTaskCount() int {
 	return taskIndex
 }
 
-func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup) {
-	CreateJob(urlS, func(bar *BarProxy, swg *sync.WaitGroup) {
+func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup, mbar *BarProxy) {
+	CreateJob(urlS, func(bar *BarProxy, _ *sync.WaitGroup) {
+		defer mbar.Increment(1)
 		wg.Add(1)
 		defer wg.Done()
-		bar.AddToTotal(1)
-		defer bar.Increment(1)
 
 		if util.DoesFileExist(pathS) {
 			return
