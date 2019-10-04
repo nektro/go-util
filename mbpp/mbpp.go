@@ -21,6 +21,7 @@ var (
 	guard     *semaphore.Weighted
 	ctx       = context.TODO()
 	taskIndex = 0
+	taskSize  = int64(0)
 )
 
 func Init(concurrency int) {
@@ -69,6 +70,10 @@ func GetTaskCount() int {
 	return taskIndex
 }
 
+func GetTaskDownloadSize() int64 {
+	return taskSize
+}
+
 func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup, mbar *BarProxy) {
 	CreateJob(urlS, func(bar *BarProxy, _ *sync.WaitGroup) {
 		defer mbar.Increment(1)
@@ -110,6 +115,7 @@ type passThru struct {
 
 func (pt *passThru) Read(p []byte) (int, error) {
 	n, err := pt.reader.Read(p)
+	taskSize += int64(n)
 	pt.bar.Increment(n)
 	return n, err
 }
