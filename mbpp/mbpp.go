@@ -86,8 +86,8 @@ func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup) {
 		}
 		bar.AddToTotal(int(res.ContentLength))
 
-		src := &PassThru{bar, res.Body}
 		dst, _ := os.Create(pathS)
+		src := &passThru{bar, res.Body}
 
 		io.Copy(dst, src)
 		res.Body.Close()
@@ -98,12 +98,12 @@ func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup) {
 //
 //
 
-type PassThru struct {
+type passThru struct {
 	bar    *BarProxy
 	reader io.Reader
 }
 
-func (pt *PassThru) Read(p []byte) (int, error) {
+func (pt *passThru) Read(p []byte) (int, error) {
 	n, err := pt.reader.Read(p)
 	pt.bar.Increment(n)
 	return n, err
