@@ -1,6 +1,8 @@
 package mbpp
 
-import "github.com/vbauerster/mpb"
+import (
+	"github.com/vbauerster/mpb"
+)
 
 type BarProxy struct {
 	T int
