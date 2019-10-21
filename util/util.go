@@ -26,10 +26,6 @@ func LogError(message ...interface{}) {
 	color.Red("["+GetIsoDateTime()+"] [error] %s", message...)
 }
 
-func Logf(format string, args ...interface{}) {
-	fmt.Println("[" + GetIsoDateTime() + "] " + F(format, args...))
-}
-
 func GetIsoDateTime() string {
 	return time.Now().UTC().String()[0:19]
 }
