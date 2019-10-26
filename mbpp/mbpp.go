@@ -9,7 +9,6 @@ import (
 	"sync"
 
 	"github.com/nektro/go-util/util"
-
 	"github.com/vbauerster/mpb"
 	"github.com/vbauerster/mpb/decor"
 	"golang.org/x/sync/semaphore"
