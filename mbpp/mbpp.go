@@ -43,18 +43,19 @@ func CreateJob(name string, f func(*BarProxy, *sync.WaitGroup)) {
 
 func createBar(name string) *BarProxy {
 	taskIndex++
-	task := fmt.Sprintf("Task #%d:", taskIndex)
+	task := fmt.Sprintf("Task #%d", taskIndex)
 
 	b := progress.AddBar(1,
 		mpb.BarRemoveOnComplete(),
 		mpb.PrependDecorators(
-			decor.Name(task, decor.WC{W: len(task) + 1, C: decor.DidentRight}),
+			decor.Name(task, decor.WCSyncSpaceR),
+			decor.Name(": ", decor.WC{W: 2}),
 			decor.Name(name, decor.WCSyncSpaceR),
 			decor.Name(": ", decor.WC{W: 2}),
 			decor.CountersNoUnit("%d / %d", decor.WCSyncWidth),
 		),
 		mpb.AppendDecorators(
-			decor.OnComplete(decor.Percentage(decor.WC{W: 5}), ""),
+			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
 		),
 	)
 
