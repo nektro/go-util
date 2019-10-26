@@ -59,7 +59,7 @@ func createBar(name string) *BarProxy {
 		),
 	)
 
-	return &BarProxy{1, b}
+	return &BarProxy{1, b, time.Now()}
 }
 
 func Wait() {
