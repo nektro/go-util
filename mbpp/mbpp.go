@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/nektro/go-util/util"
 	"github.com/vbauerster/mpb"
@@ -56,6 +57,8 @@ func createBar(name string) *BarProxy {
 		),
 		mpb.AppendDecorators(
 			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
+			decor.Name(": ", decor.WC{W: 2}),
+			decor.OnComplete(decor.EwmaETA(decor.ET_STYLE_MMSS, 0, decor.WCSyncWidth), ""),
 		),
 	)
 
