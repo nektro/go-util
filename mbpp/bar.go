@@ -1,6 +1,7 @@
 package mbpp
 
 import (
+	"sync"
 	"time"
 
 	"github.com/vbauerster/mpb"
@@ -10,6 +11,7 @@ type BarProxy struct {
 	T int64
 	B *mpb.Bar
 	s time.Time
+	w *sync.WaitGroup
 }
 
 func (b *BarProxy) AddToTotal(by int64) {
@@ -23,4 +25,8 @@ func (b *BarProxy) Increment(by int) {
 
 func (b *BarProxy) FinishNow() {
 	b.B.SetTotal(b.T, true)
+}
+
+func (b *BarProxy) Wait() {
+	b.w.Wait()
 }

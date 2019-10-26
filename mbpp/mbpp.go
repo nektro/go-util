@@ -39,6 +39,8 @@ func CreateJob(name string, f func(*BarProxy, *sync.WaitGroup)) {
 		wg := new(sync.WaitGroup)
 		f(bar, wg)
 		bar.Increment(1)
+		wg.Wait()
+		bar.Wait()
 	}()
 }
 
@@ -62,7 +64,7 @@ func createBar(name string) *BarProxy {
 		),
 	)
 
-	return &BarProxy{1, b, time.Now()}
+	return &BarProxy{1, b, time.Now(), new(sync.WaitGroup)}
 }
 
 func Wait() {
