@@ -82,7 +82,6 @@ func GetTaskDownloadSize() int64 {
 func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup, mbar *BarProxy) {
 	CreateJob(urlS, func(bar *BarProxy, _ *sync.WaitGroup) {
 		defer mbar.Increment(1)
-		wg.Add(1)
 		defer wg.Done()
 
 		if util.DoesFileExist(pathS) {
