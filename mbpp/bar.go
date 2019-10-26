@@ -5,13 +5,13 @@ import (
 )
 
 type BarProxy struct {
-	T int
+	T int64
 	B *mpb.Bar
 }
 
-func (b *BarProxy) AddToTotal(by int) {
+func (b *BarProxy) AddToTotal(by int64) {
 	b.T += by
-	b.B.SetTotal(int64(b.T), false)
+	b.B.SetTotal(b.T, false)
 }
 
 func (b *BarProxy) Increment(by int) {
@@ -19,5 +19,5 @@ func (b *BarProxy) Increment(by int) {
 }
 
 func (b *BarProxy) FinishNow() {
-	b.B.SetTotal(int64(b.T), true)
+	b.B.SetTotal(b.T, true)
 }
