@@ -24,12 +24,15 @@ func (b *BarProxy) incRaw(by int) {
 }
 
 func (b *BarProxy) AddToTotal(by int64) {
-	b.T += by
-	b.B.SetTotal(b.T, false)
+	b.addRaw(by)
+	b.w.Add(int(by))
 }
 
 func (b *BarProxy) Increment(by int) {
-	b.B.IncrBy(by, time.Since(b.s))
+	b.incRaw(by)
+	for i := 0; i < by; i++ {
+		b.w.Done()
+	}
 }
 
 func (b *BarProxy) FinishNow() {
