@@ -32,7 +32,7 @@ func Init(concurrency int) {
 
 func CreateJob(name string, f func(*BarProxy, *sync.WaitGroup)) {
 	guard.Acquire(ctx, 1)
-	go func() {
+	func() {
 		defer guard.Release(1)
 
 		bar := createBar(name)
