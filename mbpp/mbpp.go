@@ -38,7 +38,7 @@ func CreateJob(name string, f func(*BarProxy, *sync.WaitGroup)) {
 		bar := createBar(name)
 		wg := new(sync.WaitGroup)
 		f(bar, wg)
-		bar.Increment(1)
+		bar.incRaw(1)
 		wg.Wait()
 		bar.Wait()
 	}()
@@ -95,7 +95,7 @@ func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup, mbar *BarP
 		if res.StatusCode != 200 {
 			return
 		}
-		bar.AddToTotal(int(res.ContentLength))
+		bar.addRaw(res.ContentLength)
 
 		src := &passThru{bar, res.Body}
 		dst, err := os.Create(pathS)
@@ -120,6 +120,6 @@ type passThru struct {
 func (pt *passThru) Read(p []byte) (int, error) {
 	n, err := pt.reader.Read(p)
 	taskSize += int64(n)
-	pt.bar.Increment(n)
+	pt.bar.incRaw(n)
 	return n, err
 }
