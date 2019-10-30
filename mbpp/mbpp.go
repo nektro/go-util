@@ -42,16 +42,14 @@ func SetBarStyle(bstyle string) {
 	barStyle = bstyle
 }
 
-func CreateJob(name string, f func(*BarProxy, *sync.WaitGroup)) {
+func CreateJob(name string, f func(*BarProxy)) {
 	guard.Acquire(ctx, 1)
 	func() {
 		defer guard.Release(1)
 
 		bar := createBar(name)
-		wg := new(sync.WaitGroup)
-		f(bar, wg)
+		f(bar)
 		bar.incRaw(1)
-		wg.Wait()
 		bar.Wait()
 	}()
 }
@@ -121,7 +119,7 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 }
 
 func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar *BarProxy) {
-	CreateJob(name, func(b *BarProxy, _ *sync.WaitGroup) {
+	CreateJob(name, func(b *BarProxy) {
 		if bar != nil {
 			defer bar.Increment(1)
 		}
