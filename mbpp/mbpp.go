@@ -25,15 +25,6 @@ var (
 	barStyle  = "[=>-]<+"
 )
 
-var (
-	blankWg = new(sync.WaitGroup)
-)
-
-func BlankWaitGroup() *sync.WaitGroup {
-	blankWg.Add(1)
-	return blankWg
-}
-
 func Init(concurrency int) {
 	doneWg = new(sync.WaitGroup)
 	progress = mpb.New(mpb.WithWidth(64), mpb.WithWaitGroup(doneWg))
