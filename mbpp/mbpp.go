@@ -22,6 +22,7 @@ var (
 	ctx       = context.TODO()
 	taskIndex = 0
 	taskSize  = int64(0)
+	barStyle  = "[=>-]<+"
 )
 
 var (
@@ -37,6 +38,17 @@ func Init(concurrency int) {
 	doneWg = new(sync.WaitGroup)
 	progress = mpb.New(mpb.WithWidth(64), mpb.WithWaitGroup(doneWg))
 	guard = semaphore.NewWeighted(int64(concurrency))
+}
+
+// SetBarStyle sets the mpb style
+//  '1th rune' stands for left boundary rune
+// '2th rune' stands for fill rune
+//  '3th rune' stands for tip rune
+// '4th rune' stands for empty rune
+//  '5th rune' stands for right boundary rune
+// Default style is `[=>-]`
+func SetBarStyle(bstyle string) {
+	barStyle = bstyle
 }
 
 func CreateJob(name string, f func(*BarProxy, *sync.WaitGroup)) {
@@ -58,6 +70,7 @@ func createBar(name string) *BarProxy {
 	task := fmt.Sprintf("Task #%d", taskIndex)
 
 	b := progress.AddBar(1,
+		mpb.BarStyle(barStyle),
 		mpb.BarRemoveOnComplete(),
 		mpb.PrependDecorators(
 			decor.Name(task, decor.WCSyncSpaceR),
