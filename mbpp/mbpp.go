@@ -102,37 +102,31 @@ func GetTaskDownloadSize() int64 {
 }
 
 func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
-	CreateJob(urlS, func(bar *BarProxy, _ *sync.WaitGroup) {
-		defer mbar.Increment(1)
+	if util.DoesFileExist(pathS) {
+		return
+	}
 
-		if util.DoesFileExist(pathS) {
-			return
-		}
+	req, err := http.NewRequest(http.MethodGet, urlS, nil)
+	if err != nil {
+		return
+	}
+	req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return
+	}
+	if res.StatusCode != 200 {
+		return
+	}
 
-		req, err := http.NewRequest(http.MethodGet, urlS, nil)
-		if err != nil {
-			return
-		}
-		req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
-		res, err := http.DefaultClient.Do(req)
-		if err != nil {
-			return
-		}
-		if res.StatusCode != 200 {
-			return
-		}
-		bar.addRaw(res.ContentLength)
+	dst, err := os.Create(pathS)
+	if err != nil {
+		return
+	}
 
-		src := &passThru{bar, res.Body}
-		dst, err := os.Create(pathS)
-		if err != nil {
-			return
-		}
-
-		io.Copy(dst, src)
-		res.Body.Close()
-		dst.Close()
-	})
+	CreateTransferJob(urlS, res.Body, dst, res.ContentLength, mbar)
+	res.Body.Close()
+	dst.Close()
 }
 
 func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar *BarProxy) {
