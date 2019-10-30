@@ -97,7 +97,12 @@ func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup, mbar *BarP
 			return
 		}
 
-		res, err := http.Get(urlS)
+		req, err := http.NewRequest(http.MethodGet, urlS, nil)
+		if err != nil {
+			return
+		}
+		req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
+		res, err := http.DefaultClient.Do(req)
 		if err != nil {
 			return
 		}
