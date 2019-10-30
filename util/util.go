@@ -8,8 +8,10 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"runtime/debug"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/fatih/color"
@@ -229,4 +231,18 @@ func ReduceNumber(input int64, unit int64, base string, prefixes string) string 
 
 func ByteCountIEC(b int64) string {
 	return ReduceNumber(b, 1024, "B", "KMGTPEZY")
+}
+
+func RunOnClose(f func()) {
+	gracefulStop := make(chan os.Signal)
+	signal.Notify(gracefulStop, syscall.SIGTERM)
+	signal.Notify(gracefulStop, syscall.SIGINT)
+
+	go func() {
+		sig := <-gracefulStop
+		fmt.Println()
+		Log(F("Caught signal '%+v'", sig))
+		f()
+		os.Exit(0)
+	}()
 }
