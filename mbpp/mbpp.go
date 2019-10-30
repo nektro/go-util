@@ -136,6 +136,21 @@ func CreateDownloadJob(urlS string, pathS string, wg *sync.WaitGroup, mbar *BarP
 	})
 }
 
+func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar *BarProxy) {
+	CreateJob(name, func(b *BarProxy, _ *sync.WaitGroup) {
+		if bar != nil {
+			defer bar.Increment(1)
+		}
+
+		if from == nil || to == nil {
+			return
+		}
+		b.addRaw(max)
+		src := &passThru{b, from}
+		io.Copy(to, src)
+	})
+}
+
 //
 //
 
