@@ -115,6 +115,7 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 	if err != nil {
 		return
 	}
+	defer res.Body.Close()
 	if res.StatusCode != 200 {
 		return
 	}
@@ -123,10 +124,9 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 	if err != nil {
 		return
 	}
+	defer dst.Close()
 
 	CreateTransferJob(urlS, res.Body, dst, res.ContentLength, mbar)
-	res.Body.Close()
-	dst.Close()
 }
 
 func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar *BarProxy) {
