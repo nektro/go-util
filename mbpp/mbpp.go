@@ -90,7 +90,15 @@ func GetTaskDownloadSize() int64 {
 	return taskSize
 }
 
+func updateBar(bar *BarProxy) {
+	if bar != nil {
+		bar.Increment(1)
+	}
+}
+
 func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
+	defer updateBar(mbar)
+
 	if util.DoesFileExist(pathS) {
 		return
 	}
@@ -115,14 +123,12 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 	}
 	defer dst.Close()
 
-	CreateTransferJob(urlS, res.Body, dst, res.ContentLength, mbar)
+	CreateTransferJob(urlS, res.Body, dst, res.ContentLength, nil)
 }
 
 func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar *BarProxy) {
 	CreateJob(name, func(b *BarProxy) {
-		if bar != nil {
-			defer bar.Increment(1)
-		}
+		defer updateBar(bar)
 
 		if from == nil || to == nil {
 			return
