@@ -49,8 +49,8 @@ func CreateJob(name string, f func(*BarProxy)) {
 
 		bar := createBar(name)
 		f(bar)
-		bar.incRaw(1)
 		bar.Wait()
+		bar.incRaw(1)
 	}()
 }
 
