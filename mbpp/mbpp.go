@@ -134,7 +134,7 @@ func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar
 			return
 		}
 		b.addRaw(max)
-		src := &passThru{b, from}
+		src := &passThru{b, from, max > 0}
 		io.Copy(to, src)
 	})
 }
@@ -145,11 +145,15 @@ func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar
 type passThru struct {
 	bar    *BarProxy
 	reader io.Reader
+	determ bool
 }
 
 func (pt *passThru) Read(p []byte) (int, error) {
 	n, err := pt.reader.Read(p)
 	taskSize += int64(n)
+	if !pt.determ {
+		pt.bar.addRaw(int64(n))
+	}
 	pt.bar.incRaw(n)
 	return n, err
 }
