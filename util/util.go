@@ -34,6 +34,16 @@ func LogError(message ...interface{}) {
 	fmt.Println(style.ResetAll)
 }
 
+func LogWarn(message ...interface{}) {
+	fmt.Print(style.FgYellow)
+	fmt.Print(GetIsoDateTime()+": ", "warn: ")
+	for _, item := range message {
+		fmt.Print(item)
+		fmt.Print(" ")
+	}
+	fmt.Println(style.ResetAll)
+}
+
 func GetIsoDateTime() string {
 	return time.Now().UTC().String()[0:19]
 }
