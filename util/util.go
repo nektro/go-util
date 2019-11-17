@@ -27,7 +27,10 @@ func Log(message ...interface{}) {
 func LogError(message ...interface{}) {
 	fmt.Print(style.FgRed)
 	fmt.Print(GetIsoDateTime()+": ", "error: ")
-	fmt.Print(message...)
+	for _, item := range message {
+		fmt.Print(item)
+		fmt.Print(" ")
+	}
 	fmt.Println(style.ResetAll)
 }
 
