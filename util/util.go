@@ -26,22 +26,14 @@ func Log(message ...interface{}) {
 
 func LogError(message ...interface{}) {
 	fmt.Print(style.FgRed)
-	fmt.Print(GetIsoDateTime()+": ", "error: ")
-	for _, item := range message {
-		fmt.Print(item)
-		fmt.Print(" ")
-	}
-	fmt.Println(style.ResetAll)
+	Log(message...)
+	fmt.Print(style.ResetAll)
 }
 
 func LogWarn(message ...interface{}) {
 	fmt.Print(style.FgYellow)
-	fmt.Print(GetIsoDateTime()+": ", "warn: ")
-	for _, item := range message {
-		fmt.Print(item)
-		fmt.Print(" ")
-	}
-	fmt.Println(style.ResetAll)
+	Log(message...)
+	fmt.Print(style.ResetAll)
 }
 
 func GetIsoDateTime() string {
