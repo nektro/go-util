@@ -20,7 +20,7 @@ import (
 )
 
 func Log(message ...interface{}) {
-	fmt.Print("[" + GetIsoDateTime() + "] ")
+	fmt.Print(GetIsoDateTime() + ": ")
 	fmt.Println(message...)
 }
 
