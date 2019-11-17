@@ -14,7 +14,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fatih/color"
+	"github.com/nektro/go-util/ansi/style"
 
 	. "github.com/nektro/go-util/alias"
 )
@@ -25,7 +25,10 @@ func Log(message ...interface{}) {
 }
 
 func LogError(message ...interface{}) {
-	color.Red("["+GetIsoDateTime()+"] [error] %s", message...)
+	fmt.Print(style.FgRed)
+	fmt.Print(GetIsoDateTime()+": ", "error: ")
+	fmt.Print(message...)
+	fmt.Println(style.ResetAll)
 }
 
 func GetIsoDateTime() string {
