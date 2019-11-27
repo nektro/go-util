@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"sync"
@@ -137,6 +138,12 @@ func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar
 		src := &passThru{b, from, max > 0}
 		io.Copy(to, src)
 	})
+}
+
+func CreateHeadlessJob(name string, max int64, bar *BarProxy) *HeadlessBar {
+	r, w := io.Pipe()
+	go CreateTransferJob(name, r, ioutil.Discard, max, bar)
+	return &HeadlessBar{w}
 }
 
 //
