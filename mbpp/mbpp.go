@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/nektro/go-util/ansi/style"
 	"github.com/nektro/go-util/util"
 	"github.com/vbauerster/mpb"
 	"github.com/vbauerster/mpb/decor"
