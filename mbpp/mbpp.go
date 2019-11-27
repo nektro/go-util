@@ -57,7 +57,7 @@ func CreateJob(name string, f func(*BarProxy)) {
 
 func createBar(name string) *BarProxy {
 	taskIndex++
-	task := fmt.Sprintf("Task #%d", taskIndex)
+	task := fmt.Sprintf(style.FgGreen+"Task #%d"+style.ResetFgColor, taskIndex)
 
 	b := progress.AddBar(1,
 		mpb.BarStyle(barStyle),
