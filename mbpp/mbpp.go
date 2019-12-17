@@ -107,7 +107,12 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 	defer updateBar(mbar)
 
 	if util.DoesFileExist(pathS) {
-		return
+		r, _ := http.Head(urlS)
+		f, _ := os.Open(pathS)
+		s, _ := f.Stat()
+		if s.Size() == r.ContentLength {
+			return
+		}
 	}
 
 	req, err := http.NewRequest(http.MethodGet, urlS, nil)
