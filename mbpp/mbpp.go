@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"sync"
 	"time"
 
@@ -90,6 +91,10 @@ func GetTaskCount() int {
 
 func GetTaskDownloadSize() int64 {
 	return taskSize
+}
+
+func GetCompletionMessage() string {
+	return "Complete after " + strconv.Itoa(GetTaskCount()) + " tasks and " + util.ByteCountIEC(GetTaskDownloadSize()) + " downloaded."
 }
 
 func updateBar(bar *BarProxy) {
