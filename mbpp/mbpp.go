@@ -154,7 +154,7 @@ func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar
 func CreateHeadlessJob(name string, max int64, bar *BarProxy) *HeadlessBar {
 	r, w := io.Pipe()
 	go CreateTransferJob(name, r, ioutil.Discard, max, bar)
-	return &HeadlessBar{w}
+	return &HeadlessBar{w, max, 0}
 }
 
 //
