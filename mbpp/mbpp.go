@@ -145,7 +145,9 @@ func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar
 		if from == nil || to == nil {
 			return
 		}
-		b.addRaw(max)
+		if max > 0 {
+			b.addRaw(max)
+		}
 		src := &passThru{b, from, max > 0}
 		io.Copy(to, src)
 	})
