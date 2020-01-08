@@ -110,7 +110,7 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 		r, _ := http.Head(urlS)
 		f, _ := os.Open(pathS)
 		s, _ := f.Stat()
-		if s.Size() == r.ContentLength {
+		if r != nil && s.Size() == r.ContentLength {
 			return
 		}
 	}
