@@ -104,58 +104,61 @@ func updateBar(bar *BarProxy) {
 }
 
 func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
-	defer updateBar(mbar)
+	CreateJob(urlS, func(bar *BarProxy) {
+		defer updateBar(mbar)
 
-	if util.DoesFileExist(pathS) {
-		r, _ := http.Head(urlS)
-		f, _ := os.Open(pathS)
-		s, _ := f.Stat()
-		if r != nil && s.Size() == r.ContentLength {
+		if util.DoesFileExist(pathS) {
+			r, _ := http.Head(urlS)
+			f, _ := os.Open(pathS)
+			s, _ := f.Stat()
+			if r != nil && s != nil {
+				if s.Size() == r.ContentLength && r.ContentLength != 0 {
+					return
+				}
+			}
+		}
+
+		req, err := http.NewRequest(http.MethodGet, urlS, nil)
+		if err != nil {
 			return
 		}
-	}
+		req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
+		res, err := http.DefaultClient.Do(req)
+		if err != nil {
+			return
+		}
+		defer res.Body.Close()
+		if res.StatusCode != 200 {
+			return
+		}
 
-	req, err := http.NewRequest(http.MethodGet, urlS, nil)
-	if err != nil {
-		return
-	}
-	req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
-	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return
-	}
-	defer res.Body.Close()
-	if res.StatusCode != 200 {
-		return
-	}
+		dst, err := os.Create(pathS)
+		if err != nil {
+			return
+		}
+		defer dst.Close()
 
-	dst, err := os.Create(pathS)
-	if err != nil {
-		return
-	}
-	defer dst.Close()
-
-	CreateTransferJob(urlS, res.Body, dst, res.ContentLength, nil)
+		DoBarTransfer(res.Body, dst, res.ContentLength, bar)
+	})
 }
 
-func CreateTransferJob(name string, from io.Reader, to io.Writer, max int64, bar *BarProxy) {
-	CreateJob(name, func(b *BarProxy) {
-		defer updateBar(bar)
-
-		if from == nil || to == nil {
-			return
-		}
-		if max > 0 {
-			b.addRaw(max)
-		}
-		src := &passThru{b, from, max > 0}
-		io.Copy(to, src)
-	})
+func DoBarTransfer(from io.Reader, to io.Writer, max int64, bar *BarProxy) {
+	if from == nil || to == nil {
+		return
+	}
+	if max > 0 {
+		bar.addRaw(max)
+	}
+	src := &passThru{bar, from, max > 0}
+	io.Copy(to, src)
 }
 
 func CreateHeadlessJob(name string, max int64, bar *BarProxy) *HeadlessBar {
 	r, w := io.Pipe()
-	go CreateTransferJob(name, r, ioutil.Discard, max, bar)
+	go CreateJob(name, func(b *BarProxy) {
+		defer updateBar(bar)
+		DoBarTransfer(r, ioutil.Discard, max, b)
+	})
 	return &HeadlessBar{w, max, 0}
 }
 
