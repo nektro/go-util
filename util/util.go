@@ -130,7 +130,7 @@ func countMaxColumWidths(data [][]string, rowCount int, colCount int) []int {
 
 func DieOnError(err error, args ...string) {
 	if err != nil {
-		LogError(err)
+		LogError(err.Error())
 		for _, item := range args {
 			LogError(item)
 		}
