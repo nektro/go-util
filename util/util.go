@@ -254,3 +254,10 @@ func RunOnClose(f func()) {
 		os.Exit(0)
 	}()
 }
+
+func TrimLen(s string, l int) string {
+	if len(s) <= l {
+		return s
+	}
+	return s[:l]
+}
