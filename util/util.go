@@ -291,3 +291,12 @@ func FirstNonZero(x ...int) int {
 	}
 	return 0
 }
+
+func FirstNonEmptyS(values ...string) string {
+	for _, item := range values {
+		if len(item) > 0 {
+			return item
+		}
+	}
+	return ""
+}
