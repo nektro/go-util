@@ -282,3 +282,12 @@ func Hash(algo string, bys []byte) string {
 	}
 	return hex.EncodeToString(c.New().Sum(bys))
 }
+
+func FirstNonZero(x ...int) int {
+	for _, item := range x {
+		if item != 0 {
+			return item
+		}
+	}
+	return 0
+}
