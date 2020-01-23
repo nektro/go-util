@@ -2,6 +2,8 @@ package util
 
 import (
 	"bufio"
+	"crypto"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -260,4 +262,23 @@ func TrimLen(s string, l int) string {
 		return s
 	}
 	return s[:l]
+}
+
+var algoMap = map[string]crypto.Hash{
+	"MD4":       crypto.MD4,
+	"MD5":       crypto.MD5,
+	"SHA1":      crypto.SHA1,
+	"SHA224":    crypto.SHA224,
+	"SHA256":    crypto.SHA256,
+	"SHA384":    crypto.SHA384,
+	"SHA512":    crypto.SHA512,
+	"RIPEMD160": crypto.RIPEMD160,
+}
+
+func Hash(algo string, bys []byte) string {
+	c, ok := algoMap[algo]
+	if !ok {
+		return ""
+	}
+	return hex.EncodeToString(c.New().Sum(bys))
 }
