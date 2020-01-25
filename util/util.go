@@ -300,3 +300,16 @@ func FirstNonEmptyS(values ...string) string {
 	}
 	return ""
 }
+
+func DoHttpFetch(req *http.Request) ([]byte, error) {
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
