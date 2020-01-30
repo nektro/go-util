@@ -1,28 +1,23 @@
 package util
 
 import (
-	"crypto/md5"
-	"crypto/sha1"
-	"crypto/sha256"
-	"crypto/sha512"
+	"crypto"
 	"encoding/hex"
-	"hash"
-
-	"golang.org/x/crypto/md4"
-	"golang.org/x/crypto/ripemd160"
 )
 
 var (
-	algoMap = map[string]hash.Hash{}
+	algoMap = map[string]crypto.Hash{}
 )
 
 func init() {
-	algoMap["MD4"] = md4.New()
-	algoMap["MD5"] = md5.New()
-	algoMap["SHA1"] = sha1.New()
-	algoMap["SHA256"] = sha256.New()
-	algoMap["SHA512"] = sha512.New()
-	algoMap["RIPEMD160"] = ripemd160.New()
+	algoMap["MD4"] = crypto.MD4
+	algoMap["MD5"] = crypto.MD5
+	algoMap["SHA1"] = crypto.SHA1
+	algoMap["SHA224"] = crypto.SHA224
+	algoMap["SHA256"] = crypto.SHA256
+	algoMap["SHA384"] = crypto.SHA384
+	algoMap["SHA512"] = crypto.SHA512
+	algoMap["RIPEMD160"] = crypto.RIPEMD160
 }
 
 func Hash(algo string, bys []byte) string {
@@ -30,6 +25,7 @@ func Hash(algo string, bys []byte) string {
 	if !ok {
 		return ""
 	}
-	defer c.Reset()
-	return hex.EncodeToString(c.Sum(bys)[len(bys):])
+	h := c.New()
+	h.Write(bys)
+	return hex.EncodeToString(h.Sum([]byte{}))
 }
