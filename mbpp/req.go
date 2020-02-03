@@ -12,7 +12,9 @@ var (
 
 var (
 	netClient = &http.Client{
-		Timeout: time.Second * 10,
+		Transport: &http.Transport{
+			ResponseHeaderTimeout: time.Second * 10,
+		},
 	}
 )
 
