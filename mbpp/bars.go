@@ -17,8 +17,6 @@ func barA(task, name string) *mpb.Bar {
 			decor.CountersNoUnit("%d / %d", decor.WCSyncWidth),
 		),
 		mpb.AppendDecorators(
-			decor.Name("", decor.WCSyncSpace),
-			decor.Name(": ", decor.WC{W: 2}),
 			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
 			decor.Name(": ", decor.WC{W: 2}),
 			decor.OnComplete(decor.EwmaETA(decor.ET_STYLE_MMSS, 0, decor.WCSyncWidth), ""),
@@ -38,8 +36,6 @@ func barB(task, name string) *mpb.Bar {
 			decor.CountersKibiByte("% .2f / % .2f", decor.WCSyncWidth),
 		),
 		mpb.AppendDecorators(
-			decor.EwmaSpeed(decor.UnitKiB, "% .2f", 60, decor.WCSyncWidth),
-			decor.Name(": ", decor.WC{W: 2}),
 			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
 			decor.Name(": ", decor.WC{W: 2}),
 			decor.OnComplete(decor.EwmaETA(decor.ET_STYLE_MMSS, 0, decor.WCSyncWidth), ""),
