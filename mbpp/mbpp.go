@@ -57,28 +57,15 @@ func CreateJob(name string, f func(*BarProxy)) {
 	}()
 }
 
-func createBar(name string) *BarProxy {
+func createBar(name string, typ int) *BarProxy {
 	taskIndex++
 	task := fmt.Sprintf(style.FgGreen+"Task #%d"+style.ResetFgColor, taskIndex)
 
-	b := progress.AddBar(1,
-		mpb.BarStyle(barStyle),
-		mpb.BarRemoveOnComplete(),
-		mpb.PrependDecorators(
-			decor.Name(task, decor.WCSyncSpaceR),
-			decor.Name(": ", decor.WC{W: 2}),
-			decor.CountersNoUnit("%d / %d", decor.WCSyncWidth),
-		),
-		mpb.AppendDecorators(
-			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
-			decor.Name(": ", decor.WC{W: 2}),
-			decor.OnComplete(decor.EwmaETA(decor.ET_STYLE_MMSS, 0, decor.WCSyncWidth), ""),
-			decor.Name(": ", decor.WC{W: 2}),
-			decor.Name(util.TrimLen(name, 160), decor.WCSyncSpaceR),
-		),
-	)
-
-	return &BarProxy{1, b, time.Now(), new(sync.WaitGroup)}
+	switch typ {
+	case 0:
+		return &BarProxy{1, barA(task, name), time.Now(), new(sync.WaitGroup)}
+	}
+	return nil
 }
 
 func Wait() {
