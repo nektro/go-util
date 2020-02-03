@@ -45,11 +45,15 @@ func SetBarStyle(bstyle string) {
 }
 
 func CreateJob(name string, f func(*BarProxy)) {
+	tryToStartJob(0, name, f)
+}
+
+func tryToStartJob(typ int, name string, f func(*BarProxy)) {
 	guard.Acquire(ctx, 1)
 	func() {
 		defer guard.Release(1)
 
-		bar := createBar(name, 0)
+		bar := createBar(name, typ)
 		f(bar)
 		bar.Wait()
 		bar.incRaw(1)
