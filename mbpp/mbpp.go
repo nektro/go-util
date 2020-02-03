@@ -173,6 +173,9 @@ type passThru struct {
 
 func (pt *passThru) Read(p []byte) (int, error) {
 	n, err := pt.reader.Read(p)
+	if err != nil {
+		return n, err
+	}
 	taskSize += int64(n)
 	if !pt.determ {
 		pt.bar.addRaw(int64(n))
