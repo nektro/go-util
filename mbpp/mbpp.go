@@ -118,12 +118,7 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 			}
 		}
 
-		req, err := http.NewRequest(http.MethodGet, urlS, nil)
-		if err != nil {
-			return
-		}
-		req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
-		res, err := http.DefaultClient.Do(req)
+		res, err := httpReqWithRetry(urlS)
 		if err != nil {
 			return
 		}
