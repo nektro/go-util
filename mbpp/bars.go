@@ -18,6 +18,7 @@ func barA(task, name string) *mpb.Bar {
 		),
 		mpb.AppendDecorators(
 			decor.Name("", decor.WCSyncSpace),
+			decor.Name(": ", decor.WC{W: 2}),
 			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
 			decor.Name(": ", decor.WC{W: 2}),
 			decor.OnComplete(decor.EwmaETA(decor.ET_STYLE_MMSS, 0, decor.WCSyncWidth), ""),
