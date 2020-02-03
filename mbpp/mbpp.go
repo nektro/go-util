@@ -14,7 +14,6 @@ import (
 	"github.com/nektro/go-util/ansi/style"
 	"github.com/nektro/go-util/util"
 	"github.com/vbauerster/mpb"
-	"github.com/vbauerster/mpb/decor"
 	"golang.org/x/sync/semaphore"
 )
 
@@ -50,7 +49,7 @@ func CreateJob(name string, f func(*BarProxy)) {
 	func() {
 		defer guard.Release(1)
 
-		bar := createBar(name)
+		bar := createBar(name, 0)
 		f(bar)
 		bar.Wait()
 		bar.incRaw(1)
