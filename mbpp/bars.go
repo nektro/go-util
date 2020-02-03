@@ -27,3 +27,24 @@ func barA(task, name string) *mpb.Bar {
 		),
 	)
 }
+
+func barB(task, name string) *mpb.Bar {
+	return progress.AddBar(1,
+		mpb.BarStyle(barStyle),
+		mpb.BarRemoveOnComplete(),
+		mpb.PrependDecorators(
+			decor.Name(task, decor.WCSyncSpaceR),
+			decor.Name(": ", decor.WC{W: 2}),
+			decor.CountersKibiByte("% .2f / % .2f", decor.WCSyncWidth),
+		),
+		mpb.AppendDecorators(
+			decor.EwmaSpeed(decor.UnitKiB, "% .2f", 60, decor.WCSyncWidth),
+			decor.Name(": ", decor.WC{W: 2}),
+			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
+			decor.Name(": ", decor.WC{W: 2}),
+			decor.OnComplete(decor.EwmaETA(decor.ET_STYLE_MMSS, 0, decor.WCSyncWidth), ""),
+			decor.Name(": ", decor.WC{W: 2}),
+			decor.Name(util.TrimLen(name, 160), decor.WCSyncSpaceR),
+		),
+	)
+}

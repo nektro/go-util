@@ -67,6 +67,8 @@ func createBar(name string, typ int) *BarProxy {
 	switch typ {
 	case 0:
 		return &BarProxy{1, barA(task, name), time.Now(), new(sync.WaitGroup)}
+	case 1:
+		return &BarProxy{1, barB(task, name), time.Now(), new(sync.WaitGroup)}
 	}
 	return nil
 }
@@ -94,7 +96,7 @@ func updateBar(bar *BarProxy) {
 }
 
 func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
-	CreateJob(urlS, func(bar *BarProxy) {
+	tryToStartJob(1, urlS, func(bar *BarProxy) {
 		defer updateBar(mbar)
 
 		if util.DoesFileExist(pathS) {
