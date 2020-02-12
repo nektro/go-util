@@ -4,6 +4,18 @@ import (
 	"crypto"
 	"encoding/hex"
 	"io"
+
+	// ensure crypto algorithms are initialized
+	_ "crypto/md5"
+	_ "crypto/sha1"
+	_ "crypto/sha256"
+	_ "crypto/sha512"
+
+	// ensure crypto algorithms are initialized
+	_ "golang.org/x/crypto/blake2b"
+	_ "golang.org/x/crypto/md4"
+	_ "golang.org/x/crypto/ripemd160"
+	_ "golang.org/x/crypto/sha3"
 )
 
 var (
