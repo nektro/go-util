@@ -3,6 +3,7 @@ package util
 import (
 	"crypto"
 	"encoding/hex"
+	"io"
 )
 
 var (
@@ -38,5 +39,15 @@ func Hash(algo string, bys []byte) string {
 	}
 	h := c.New()
 	h.Write(bys)
+	return hex.EncodeToString(h.Sum([]byte{}))
+}
+
+func HashStream(algo string, rc io.ReadCloser) string {
+	c, ok := algoMap[algo]
+	if !ok {
+		return ""
+	}
+	h := c.New()
+	io.Copy(h, rc)
 	return hex.EncodeToString(h.Sum([]byte{}))
 }
