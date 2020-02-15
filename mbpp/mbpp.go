@@ -2,7 +2,6 @@ package mbpp
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -62,7 +61,7 @@ func tryToStartJob(typ int, name string, f func(*BarProxy)) {
 
 func createBar(name string, typ int) *BarProxy {
 	taskIndex++
-	task := fmt.Sprintf(style.FgGreen+"Task #%d"+style.ResetFgColor, taskIndex)
+	task := style.FgGreen + "Task " + strconv.Itoa(taskIndex) + style.ResetFgColor
 
 	switch typ {
 	case 0:
