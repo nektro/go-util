@@ -33,3 +33,7 @@ func (w *decorBarColor) GetConf() decor.WC {
 
 func (w *decorBarColor) SetConf(decor.WC) {
 }
+
+func (w *decorBarColor) Syncable() (chan int, bool) {
+	return nil, true
+}
