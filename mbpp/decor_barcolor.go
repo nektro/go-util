@@ -9,6 +9,9 @@ type decorBarColor struct {
 }
 
 func (w *decorBarColor) Decor(s *decor.Statistics) string {
+	if !ColoredBar {
+		return ""
+	}
 	p := float64(s.Current) / float64(s.Total)
 	if p < .5 {
 		// red -> yellow

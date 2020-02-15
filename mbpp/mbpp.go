@@ -12,6 +12,7 @@ import (
 
 	"github.com/nektro/go-util/ansi/style"
 	"github.com/nektro/go-util/util"
+	"github.com/spf13/pflag"
 	"github.com/vbauerster/mpb"
 	"golang.org/x/sync/semaphore"
 )
@@ -29,7 +30,12 @@ var (
 	BarStyle        = "[=>-]<+"
 	PercentageStyle = style.FgMagenta
 	ETAStyle        = style.FgCyan
+	ColoredBar      bool
 )
+
+func init() {
+	pflag.BoolVar(&ColoredBar, "mbpp-bar-gradient", false, "Enabling this will make the bar gradient from red/yellow/green.")
+}
 
 func Init(concurrency int) {
 	doneWg = new(sync.WaitGroup)
