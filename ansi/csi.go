@@ -16,5 +16,5 @@ var (
 	ScrollUp       = func(n int) string { return MakeCSISeq("S", n) }
 	ScrollDown     = func(n int) string { return MakeCSISeq("T", n) }
 	HorzVertPos    = func(n, m int) string { return MakeCSISeq("f", n, m) }
-	SGR            = func(n int) string { return MakeCSISeq("m", n) }
+	SGR            = func(n ...int) string { return MakeCSISeq("m", n...) }
 )
