@@ -39,6 +39,8 @@ var (
 	FgMagenta    = ansi.SGR(35)
 	FgCyan       = ansi.SGR(36)
 	FgWhite      = ansi.SGR(37)
+	Fg8bit       = func(n int) string { return ansi.SGR(38, 5, n) }
+	Fg24bit      = func(r, g, b int) string { return ansi.SGR(38, 2, r, g, b) }
 	ResetFgColor = ansi.SGR(39)
 
 	BgBlack      = ansi.SGR(40)
@@ -49,6 +51,8 @@ var (
 	BgMagenta    = ansi.SGR(45)
 	BgCyan       = ansi.SGR(46)
 	BgWhite      = ansi.SGR(47)
+	Bg8bit       = func(n int) string { return ansi.SGR(48, 5, n) }
+	Bg24bit      = func(r, g, b int) string { return ansi.SGR(48, 2, r, g, b) }
 	ResetBgColor = ansi.SGR(49)
 
 	Framed         = ansi.SGR(51)
