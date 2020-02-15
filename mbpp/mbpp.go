@@ -27,6 +27,8 @@ var (
 
 var (
 	BarStyle        = "[=>-]<+"
+	PercentageStyle = style.FgMagenta
+	ETAStyle        = style.FgCyan
 )
 
 func Init(concurrency int) {
