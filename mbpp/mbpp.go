@@ -23,7 +23,10 @@ var (
 	ctx       = context.TODO()
 	taskIndex = 0
 	taskSize  = int64(0)
-	barStyle  = "[=>-]<+"
+)
+
+var (
+	BarStyle        = "[=>-]<+"
 )
 
 func Init(concurrency int) {
@@ -40,7 +43,7 @@ func Init(concurrency int) {
 //  '5th rune' stands for right boundary rune
 // Default style is `[=>-]`
 func SetBarStyle(bstyle string) {
-	barStyle = bstyle
+	BarStyle = bstyle
 }
 
 func CreateJob(name string, f func(*BarProxy)) {

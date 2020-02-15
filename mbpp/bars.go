@@ -9,7 +9,7 @@ import (
 //
 func barA(task, name string) *mpb.Bar {
 	return progress.AddBar(1,
-		mpb.BarStyle(barStyle),
+		mpb.BarStyle(BarStyle),
 		mpb.BarRemoveOnComplete(),
 		mpb.PrependDecorators(
 			decor.Name(task, decor.WCSyncSpaceR),
@@ -28,7 +28,7 @@ func barA(task, name string) *mpb.Bar {
 
 func barB(task, name string) *mpb.Bar {
 	return progress.AddBar(1,
-		mpb.BarStyle(barStyle),
+		mpb.BarStyle(BarStyle),
 		mpb.BarRemoveOnComplete(),
 		mpb.PrependDecorators(
 			decor.Name(task, decor.WCSyncSpaceR),
