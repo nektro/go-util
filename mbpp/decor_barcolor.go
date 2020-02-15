@@ -23,8 +23,8 @@ func (w *decorBarColor) Decor(s *decor.Statistics) string {
 	return style.Fg24bit(255-x, 255, 0)
 }
 
-func (w *decorBarColor) Sync() (chan int, bool) {
-	return nil, true
+func (w *decorBarColor) Sync() (c chan int, b bool) {
+	return
 }
 
 func (w *decorBarColor) GetConf() decor.WC {
@@ -34,6 +34,6 @@ func (w *decorBarColor) GetConf() decor.WC {
 func (w *decorBarColor) SetConf(decor.WC) {
 }
 
-func (w *decorBarColor) Syncable() (chan int, bool) {
-	return nil, true
+func (w *decorBarColor) Syncable() (b bool, c chan int) {
+	return
 }
