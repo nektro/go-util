@@ -16,8 +16,10 @@ func barA(task, name string) *mpb.Bar {
 			decor.Name(task, decor.WCSyncSpaceR),
 			decor.Name(": ", decor.WC{W: 2}),
 			decor.CountersNoUnit("%d / %d", decor.WCSyncWidth),
+			&decorBarColor{},
 		),
 		mpb.AppendDecorators(
+			decor.Name(style.ResetFgColor, decor.WC{W: 0}),
 			decor.Name(PercentageStyle, decor.WC{W: 0}),
 			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
 			decor.Name(style.ResetFgColor, decor.WC{W: 0}),
@@ -39,8 +41,10 @@ func barB(task, name string) *mpb.Bar {
 			decor.Name(task, decor.WCSyncSpaceR),
 			decor.Name(": ", decor.WC{W: 2}),
 			decor.CountersKibiByte("% .2f / % .2f", decor.WCSyncWidth),
+			&decorBarColor{},
 		),
 		mpb.AppendDecorators(
+			decor.Name(style.ResetFgColor, decor.WC{W: 0}),
 			decor.Name(PercentageStyle, decor.WC{W: 0}),
 			decor.OnComplete(decor.Percentage(decor.WCSyncSpace), ""),
 			decor.Name(style.ResetFgColor, decor.WC{W: 0}),
