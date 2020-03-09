@@ -1,5 +1,14 @@
 package stringsu
 
+func Contains(haystack []string, needle string) bool {
+	for _, item := range haystack {
+		if needle == item {
+			return true
+		}
+	}
+	return false
+}
+
 func Filter(stack []string, cb func(string) bool) []string {
 	result := []string{}
 	for _, item := range stack {
@@ -16,4 +25,10 @@ func Map(stack []string, cb func(string) string) []string {
 		result = append(result, cb(item))
 	}
 	return result
+}
+
+func Remove(stack []string, search ...string) []string {
+	return Filter(stack, func(s string) bool {
+		return !Contains(search, s)
+	})
 }
