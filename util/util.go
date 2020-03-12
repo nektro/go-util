@@ -186,12 +186,7 @@ func CheckErr(err error, args ...string) {
 }
 
 func Contains(haystack []string, needle string) bool {
-	for _, item := range haystack {
-		if needle == item {
-			return true
-		}
-	}
-	return false
+	return stringsu.Contains(haystack, needle)
 }
 
 func FullHost(r *http.Request) string {
