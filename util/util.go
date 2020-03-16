@@ -239,8 +239,7 @@ func ByteCountIEC(b int64) string {
 
 func RunOnClose(f func()) {
 	gracefulStop := make(chan os.Signal)
-	signal.Notify(gracefulStop, syscall.SIGTERM)
-	signal.Notify(gracefulStop, syscall.SIGINT)
+	signal.Notify(gracefulStop, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
 		sig := <-gracefulStop
