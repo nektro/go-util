@@ -2,7 +2,6 @@ package util
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -12,7 +11,6 @@ import (
 	"runtime/debug"
 	"strings"
 	"syscall"
-	"time"
 
 	"github.com/nektro/go-util/ansi/style"
 	"github.com/nektro/go-util/arrays/stringsu"
@@ -21,7 +19,7 @@ import (
 )
 
 func Log(message ...interface{}) {
-	fmt.Print(GetIsoDateTime() + ": ")
+	fmt.Print(T() + ": ")
 	fmt.Println(message...)
 }
 
@@ -35,10 +33,6 @@ func LogWarn(message ...interface{}) {
 	fmt.Print(style.FgYellow)
 	Log(message...)
 	fmt.Print(style.ResetAll)
-}
-
-func GetIsoDateTime() string {
-	return time.Now().UTC().String()[0:19]
 }
 
 func PrintTable(data [][]string, dividers bool) {
@@ -143,7 +137,7 @@ func Assert(condition bool, errorMessage string) error {
 	if condition {
 		return nil
 	}
-	return errors.New(errorMessage)
+	return E(errorMessage)
 }
 
 func DoesFileExist(file string) bool {
@@ -174,9 +168,7 @@ func ReadFileLines(path string, send func(string)) {
 	for scanner.Scan() {
 		send(scanner.Text())
 	}
-	if err := scanner.Err(); err != nil {
-		LogError(err)
-	}
+	CheckErr(scanner.Err())
 }
 
 func CheckErr(err error, args ...string) {
