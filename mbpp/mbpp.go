@@ -158,3 +158,46 @@ func CreateHeadlessJob(name string, max int64, bar *BarProxy) *HeadlessBar {
 	})
 	return &HeadlessBar{w, max, 0}
 }
+
+type DownloadJobOptions struct {
+	Headers map[string]string
+}
+
+func CreateDownloadJobOps(urlS string, pathS string, mbar *BarProxy, ops *DownloadJobOptions) {
+	if ops == nil {
+		ops = &DownloadJobOptions{
+			map[string]string{},
+		}
+	}
+	tryToStartJob(1, urlS, func(bar *BarProxy) {
+		defer updateBar(mbar)
+
+		if util.DoesFileExist(pathS) {
+			r, _ := http.Head(urlS)
+			f, _ := os.Open(pathS)
+			s, _ := f.Stat()
+			if r != nil && s != nil {
+				if s.Size() == r.ContentLength && r.ContentLength != 0 {
+					return
+				}
+			}
+		}
+
+		res, err := httpReqWithRetry(urlS, ops.Headers)
+		if err != nil {
+			return
+		}
+		defer res.Body.Close()
+		if res.StatusCode != 200 {
+			return
+		}
+
+		dst, err := os.Create(pathS)
+		if err != nil {
+			return
+		}
+		defer dst.Close()
+
+		DoBarTransfer(res.Body, dst, res.ContentLength, bar)
+	})
+}
