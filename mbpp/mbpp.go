@@ -120,7 +120,7 @@ func CreateDownloadJob(urlS string, pathS string, mbar *BarProxy) {
 			}
 		}
 
-		res, err := httpReqWithRetry(urlS)
+		res, err := httpReqWithRetry(urlS, nil)
 		if err != nil {
 			return
 		}

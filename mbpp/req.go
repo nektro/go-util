@@ -18,7 +18,7 @@ var (
 	}
 )
 
-func httpReqWithRetry(urlS string) (_ *http.Response, err error) {
+func httpReqWithRetry(urlS string, headers map[string]string) (_ *http.Response, err error) {
 	for i := 0; i < MaxHttpRetries; i++ {
 		req, err := http.NewRequest(http.MethodGet, urlS, nil)
 		if err != nil {
@@ -26,6 +26,11 @@ func httpReqWithRetry(urlS string) (_ *http.Response, err error) {
 		}
 		req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
 		req.Header.Add("connection", "close")
+		if headers != nil {
+			for k, v := range headers {
+				req.Header.Add(k, v)
+			}
+		}
 		res, err := netClient.Do(req)
 		if err != nil {
 			if strings.Contains(err.Error(), "Client.Timeout exceeded") {
