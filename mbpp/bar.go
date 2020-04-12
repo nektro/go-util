@@ -20,7 +20,8 @@ func (b *BarProxy) addRaw(by int64) {
 }
 
 func (b *BarProxy) incRaw(by int) {
-	b.B.IncrBy(by, time.Since(b.s))
+	b.B.IncrBy(by)
+	b.B.DecoratorEwmaUpdate(time.Since(b.s))
 	b.s = time.Now()
 }
 
