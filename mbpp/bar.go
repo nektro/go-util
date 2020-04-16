@@ -19,10 +19,14 @@ func (b *BarProxy) addRaw(by int64) {
 	b.B.SetTotal(b.T, false)
 }
 
+var mt = new(sync.Mutex)
+
 func (b *BarProxy) incRaw(by int) {
+	mt.Lock()
 	b.B.IncrBy(by)
 	b.B.DecoratorEwmaUpdate(time.Since(b.s))
 	b.s = time.Now()
+	mt.Unlock()
 }
 
 func (b *BarProxy) AddToTotal(by int64) {
