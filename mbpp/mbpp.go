@@ -12,7 +12,7 @@ import (
 
 	"github.com/nektro/go-util/ansi/style"
 	"github.com/nektro/go-util/util"
-	"github.com/spf13/pflag"
+	"github.com/nektro/go-util/vflag"
 	"github.com/vbauerster/mpb"
 	"golang.org/x/sync/semaphore"
 )
@@ -34,7 +34,7 @@ var (
 )
 
 func init() {
-	pflag.BoolVar(&ColoredBar, "mbpp-bar-gradient", false, "Enabling this will make the bar gradient from red/yellow/green.")
+	vflag.BoolVar(&ColoredBar, "mbpp-bar-gradient", false, "Enabling this will make the bar gradient from red/yellow/green.")
 }
 
 func Init(concurrency int) {
