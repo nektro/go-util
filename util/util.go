@@ -180,10 +180,6 @@ func CheckErr(err error, args ...string) {
 	}
 }
 
-func Contains(haystack []string, needle string) bool {
-	return stringsu.Contains(haystack, needle)
-}
-
 func FullHost(r *http.Request) string {
 	urlS := "http"
 	if len(r.Header.Get("X-TLS-Enabled")) > 0 {
