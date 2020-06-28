@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/signal"
 	"runtime/debug"
 	"strings"
@@ -290,4 +291,19 @@ func RandomString(n int) string {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
 	}
 	return string(b)
+}
+
+// AreWeInContainer returns true if this process is running inside docker
+func AreWeInContainer() bool {
+	cpc, _ := exec.Command("cat", "/proc/1/cgroup").Output()
+	for _, item := range strings.Split(string(cpc), "\n") {
+		ln := strings.Split(item, ":")
+		if len(ln) < 3 {
+			continue
+		}
+		if !stringsu.Contains([]string{"/", "/init.scope"}, ln[2]) {
+			return true
+		}
+	}
+	return false
 }
