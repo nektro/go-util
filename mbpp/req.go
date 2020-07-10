@@ -24,11 +24,12 @@ func httpReqWithRetry(urlS string, headers map[string]string) (_ *http.Response,
 		if err != nil {
 			return nil, err
 		}
-		req.Header.Add("user-agent", "github.com/nektro/go-util/mbpp")
-		req.Header.Add("connection", "close")
+		req.Header.Set("user-agent", "github.com/nektro/go-util/mbpp")
+		req.Header.Set("connection", "close")
+		req.Header.Set("host", req.URL.Host)
 		if headers != nil {
 			for k, v := range headers {
-				req.Header.Add(k, v)
+				req.Header.Set(k, v)
 			}
 		}
 		res, err := netClient.Do(req)
