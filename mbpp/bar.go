@@ -23,8 +23,7 @@ var mt = new(sync.Mutex)
 
 func (b *BarProxy) incRaw(by int) {
 	mt.Lock()
-	b.B.IncrBy(by)
-	b.B.DecoratorEwmaUpdate(time.Since(b.s))
+	b.B.IncrBy(by, time.Since(b.s))
 	b.s = time.Now()
 	mt.Unlock()
 }
