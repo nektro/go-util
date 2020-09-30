@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/nektro/go-util/arrays/stringsu"
 	"github.com/spf13/pflag"
 )
 
@@ -12,6 +13,8 @@ var (
 	flagsS = map[*string][2]string{}
 	flagsI = map[*int][2]string{}
 	flagsB = map[*bool][2]string{}
+
+	flagaS = []*[]string{}
 )
 
 // Parse parses all flags and also checks for environment variable values.
@@ -48,5 +51,8 @@ func Parse() {
 				*k = b
 			}
 		}
+	}
+	for _, item := range flagaS {
+		*item = stringsu.Depupe(*item)
 	}
 }

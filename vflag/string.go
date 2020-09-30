@@ -25,6 +25,7 @@ func StringVar(p *string, name string, value string, usage string) {
 // is the splitter and the rest is the items. ie `:hello:world` vs `,hello,world`
 func StringArrayVar(p *[]string, name string, value []string, usage string) {
 	pflag.StringArrayVar(p, name, value, usage)
+	flagaS = append(flagaS, p)
 	rn := strings.ReplaceAll(strings.ToUpper(name), "-", "_")
 	for i := 1; i < 10; i++ {
 		s := os.Getenv(rn + "_" + strconv.Itoa(i))
