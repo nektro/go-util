@@ -55,7 +55,7 @@ func Hash(algo string, bys []byte) string {
 	return hex.EncodeToString(h.Sum([]byte{}))
 }
 
-func HashStream(algo string, rc io.ReadCloser) string {
+func HashStream(algo string, rc io.Reader) string {
 	c, ok := algoMap[algo]
 	if !ok {
 		return ""
